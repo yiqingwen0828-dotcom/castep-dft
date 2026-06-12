@@ -21,7 +21,7 @@ When this skill is active, Claude can help you:
 In Claude Code:
 
 ```
-/plugin marketplace add yiqingwen0828/castep-dft
+/plugin marketplace add yiqingwen0828-dotcom/castep-dft
 /plugin install castep-dft@castep-dft
 ```
 
@@ -42,7 +42,7 @@ To update later:
 Clone the skill straight into your personal skills folder:
 
 ```bash
-git clone https://github.com/yiqingwen0828/castep-dft
+git clone https://github.com/yiqingwen0828-dotcom/castep-dft
 cp -r castep-dft/plugins/castep-dft/skills/castep-dft ~/.claude/skills/
 ```
 
