@@ -60,13 +60,16 @@ def parse_species_counts_from_cell(cell_path: str) -> Dict[str, int]:
         line = raw.strip()
         if not line or line.startswith("#"):
             continue
-        u = line.upper()
-        if u.startswith("%BLOCK POSITIONS_FRAC") or u.startswith("%BLOCK POSITIONS_ABS"):
-            in_block = True
-            continue
-        if u.startswith("%ENDBLOCK POSITIONS_FRAC") or u.startswith("%ENDBLOCK POSITIONS_ABS"):
-            in_block = False
-            continue
+        # Exact block-name match: startswith would also swallow
+        # POSITIONS_FRAC_PRODUCT / _INTERMEDIATE (NEB cells) and double-count.
+        tokens = line.upper().split()
+        if len(tokens) >= 2 and tokens[1] in ("POSITIONS_FRAC", "POSITIONS_ABS"):
+            if tokens[0] == "%BLOCK":
+                in_block = True
+                continue
+            if tokens[0] == "%ENDBLOCK":
+                in_block = False
+                continue
         if in_block:
             parts = line.split()
             if parts:

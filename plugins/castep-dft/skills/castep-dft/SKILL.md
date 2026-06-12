@@ -3,7 +3,7 @@ name: castep-dft
 description: Run and troubleshoot CASTEP DFT calculations — geometry optimization, convergence testing (cutoff + k-points), phonons, NEB diffusion barriers, and electronic structure (band/DOS/d-band). Use when working with .cell/.param/.castep files, setting up or debugging DFT on an HPC/SLURM cluster, running phonon/NEB/band-structure workflows, or hitting errors like SCF non-convergence or "Fixed coordinate mismatch".
 license: MIT
 metadata:
-  version: "0.3"
+  version: "0.3.1"
   skill-author: Qingwen Yi
 ---
 
