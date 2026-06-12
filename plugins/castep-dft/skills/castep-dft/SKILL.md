@@ -2,6 +2,10 @@
 name: castep-dft
 description: Run and troubleshoot CASTEP DFT calculations — geometry optimization, convergence testing (cutoff + k-points), phonons, NEB diffusion barriers, and electronic structure (band/DOS/d-band). Use when the user works with .cell/.param files, CASTEP output (.castep), runs DFT on an HPC/SLURM cluster, or hits errors like SCF non-convergence or "Fixed coordinate mismatch".
 when_to_use: Triggered by CASTEP .cell/.param/.castep files, requests to set up or debug a DFT calculation, convergence testing, phonon/NEB/band-structure workflows, or CASTEP errors on a SLURM cluster.
+license: MIT
+metadata:
+  version: "0.2"
+  skill-author: Qingwen Yi
 ---
 
 # CASTEP DFT Assistant
@@ -85,6 +89,30 @@ Pseudopotentials default to CASTEP's on-the-fly (OTF) generation if no `SPECIES_
 | NEB diffusion barriers | [references/neb.md](references/neb.md) | **`fix_com : F`** in `.cell` — default COM constraint breaks NEB |
 | Band structure / DOS / d-band | [references/electronic-structure.md](references/electronic-structure.md) | PBE underestimates band gaps; fine for stability/migration |
 | Anything failing | [references/troubleshooting.md](references/troubleshooting.md) | Read the error **literally** before theorizing |
+
+## Common workflows (end to end)
+
+### A. Substitution / formation energy across a series
+
+Goal: rank how favourable it is to substitute element M into a host (e.g. M for Fe in FeS₂).
+
+1. **Converge** cutoff and k-points once on the host; reuse for every system in the series (internal consistency). See [references/convergence.md](references/convergence.md).
+2. **Relax the host** with strict tolerances (`templates/geomopt-strict.param`).
+3. **Relax each substituted cell** (one M per cell) with the same settings.
+4. **Relax the elemental references** (bulk Fe, bulk M, ...) as single-points/geom-opt to get chemical potentials μ.
+5. **Compute** `E_sub(M) = E(sub_M) − E(host) − μ_M + μ_Fe` with `scripts/parse_energies.py <root_dir>` — it walks the tree, extracts final energies, and writes a CSV.
+6. **Sanity-check**: a negative `E_sub` means substitution is favourable; compare the ordering across M, not absolute values.
+
+### B. Li (or ion) migration barrier with NEB
+
+Goal: a diffusion barrier for an ion hopping between two sites.
+
+1. **Relax** the host supercell (strict).
+2. **Build endpoints**: place the migrating ion at the initial site (`POSITIONS_FRAC`) and final site (`POSITIONS_FRAC_PRODUCT`) in one `.cell`; framework atoms identical in both.
+3. **Add `fix_com : F`** to the `.cell` — without it the run aborts with `Fixed coordinate mismatch`. See [references/neb.md](references/neb.md).
+4. **Run CI-NEB** with `templates/neb.param` (`tssearch_neb_climbing : TRUE`).
+5. **Read the barrier**: energy of the climbing image relative to the reactant. State whether the framework was frozen (upper bound) or relaxed.
+6. **Sanity-check** against literature for similar materials; a wildly high barrier usually means a frozen framework or a bad initial path.
 
 ## Templates and scripts
 
