@@ -1,10 +1,9 @@
 ---
 name: castep-dft
-description: Run and troubleshoot CASTEP DFT calculations — geometry optimization, convergence testing (cutoff + k-points), phonons, NEB diffusion barriers, and electronic structure (band/DOS/d-band). Use when the user works with .cell/.param files, CASTEP output (.castep), runs DFT on an HPC/SLURM cluster, or hits errors like SCF non-convergence or "Fixed coordinate mismatch".
-when_to_use: Triggered by CASTEP .cell/.param/.castep files, requests to set up or debug a DFT calculation, convergence testing, phonon/NEB/band-structure workflows, or CASTEP errors on a SLURM cluster.
+description: Run and troubleshoot CASTEP DFT calculations — geometry optimization, convergence testing (cutoff + k-points), phonons, NEB diffusion barriers, and electronic structure (band/DOS/d-band). Use when working with .cell/.param/.castep files, setting up or debugging DFT on an HPC/SLURM cluster, running phonon/NEB/band-structure workflows, or hitting errors like SCF non-convergence or "Fixed coordinate mismatch".
 license: MIT
 metadata:
-  version: "0.2"
+  version: "0.3"
   skill-author: Qingwen Yi
 ---
 
@@ -100,8 +99,8 @@ Goal: rank how favourable it is to substitute element M into a host (e.g. M for 
 2. **Relax the host** with strict tolerances (`templates/geomopt-strict.param`).
 3. **Relax each substituted cell** (one M per cell) with the same settings.
 4. **Relax the elemental references** (bulk Fe, bulk M, ...) as single-points/geom-opt to get chemical potentials μ.
-5. **Compute** `E_sub(M) = E(sub_M) − E(host) − μ_M + μ_Fe` with `scripts/parse_energies.py <root_dir>` — it walks the tree, extracts final energies, and writes a CSV.
-6. **Sanity-check**: a negative `E_sub` means substitution is favourable; compare the ordering across M, not absolute values.
+5. **Compute** `E_sub(M) = E(sub_M) − E(host) − μ_M + μ_host` with `scripts/parse_energies.py <root_dir>` — it walks the tree, extracts final energies, and writes a CSV. Configure for your system with `--parent-names`, `--host-element`, `--sub-elements`, `--reference-root` (defaults match an FeS₂ transition-metal substitution layout).
+6. **Sanity-check**: a negative `E_sub` means substitution is favourable **relative to the chosen reference chemical potentials** (elemental bulk here) — a different choice of reference phases shifts all values. Compare trends across M, not absolute stability.
 
 ### B. Li (or ion) migration barrier with NEB
 
@@ -121,7 +120,7 @@ Goal: a diffusion barrier for an ion hopping between two sites.
 - `templates/neb.param` — CI-NEB transition-state search.
 - `templates/example.cell` — annotated cell file.
 - `templates/submit.sh` — SLURM batch script.
-- `scripts/parse_energies.py` — extract final energies from many `.castep` files and compute substitution/formation energies. Run: `python3 scripts/parse_energies.py <root_dir>`.
+- `scripts/parse_energies.py` — extract final energies from many `.castep` files and compute substitution/formation energies. Run: `python3 scripts/parse_energies.py <root_dir>`; see `--help` for configuring host/substituent elements and directory layout.
 
 ## Working method (important)
 

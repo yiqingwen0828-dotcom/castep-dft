@@ -28,7 +28,7 @@ The `.cell` file defines the endpoints with three position blocks:
 %BLOCK POSITIONS_FRAC_INTERMEDIATE  (optional, seeds the path)
 ```
 
-The framework atoms stay essentially fixed; the migrating ion is at a different position in reactant vs product.
+The migrating ion sits at a different position in reactant vs product. Whether the framework moves depends on your endpoints and constraints: if only the migrating ion differs between endpoints, the framework path starts out fixed — allow it to relax during the NEB unless you are intentionally computing a frozen-framework **upper bound** on the barrier (and say which one you did when reporting).
 
 ## ⚠️ The fix_com trap — read this before you run NEB
 

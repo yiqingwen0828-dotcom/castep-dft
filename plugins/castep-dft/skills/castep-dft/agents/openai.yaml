@@ -1,0 +1,8 @@
+# Codex / Agent Skills UI metadata (ignored by Claude Code; harmless cross-platform extra).
+# Schema: https://developers.openai.com/codex/skills
+
+interface:
+  display_name: "CASTEP DFT Assistant"
+  short_description: "Run and troubleshoot CASTEP DFT: geometry optimization, convergence testing, phonons, NEB barriers, electronic structure."
+  brand_color: "#6800AB"
+  default_prompt: "Help me set up or debug a CASTEP calculation. Start by asking what task (geometry optimization, convergence test, phonons, NEB, or electronic structure) and what system I'm working on."
