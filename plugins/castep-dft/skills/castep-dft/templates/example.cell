@@ -1,0 +1,39 @@
+# Annotated CASTEP cell file. Replace with your own structure.
+# Lattice in Angstrom; this example is a cubic cell.
+
+%BLOCK LATTICE_CART
+ 5.419  0.000  0.000
+ 0.000  5.419  0.000
+ 0.000  0.000  5.419
+%ENDBLOCK LATTICE_CART
+
+# Fractional positions are usually most convenient. POSITIONS_ABS (Angstrom) also works.
+# For magnetic systems set initial spins, e.g.  Fe  0.0 0.0 0.0 SPIN=4.0
+%BLOCK POSITIONS_FRAC
+Fe  0.000  0.000  0.000
+Fe  0.000  0.500  0.500
+Fe  0.500  0.000  0.500
+Fe  0.500  0.500  0.000
+S   0.384  0.384  0.384
+S   0.616  0.116  0.884
+# ... add remaining atoms ...
+%ENDBLOCK POSITIONS_FRAC
+
+# k-point grid: CONVERGE this (see references/convergence.md).
+kpoint_mp_grid 5 5 5
+
+# Pseudopotentials: omit SPECIES_POT to use CASTEP on-the-fly (OTF) generation.
+# To specify explicitly:
+# %BLOCK SPECIES_POT
+# Fe  Fe_OTF.usp
+# S   S_OTF.usp
+# %ENDBLOCK SPECIES_POT
+
+# --- NEB only: turn off the default centre-of-mass constraint ---
+# fix_com : F
+
+# --- optional: constrain cell shape during relaxation ---
+# %BLOCK CELL_CONSTRAINTS
+# 1 1 1
+# 0 0 0
+# %ENDBLOCK CELL_CONSTRAINTS

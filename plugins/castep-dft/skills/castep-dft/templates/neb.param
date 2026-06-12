@@ -1,0 +1,28 @@
+# CI-NEB transition-state search.
+# IMPORTANT: also add `fix_com : F` to the .cell file, or the run aborts with
+# "Fixed coordinate mismatch" (see references/neb.md).
+
+task                         : TransitionStateSearch
+tssearch_method              : NEB
+tssearch_max_path_points     : 7          # number of images along the path (5-9 typical)
+tssearch_neb_max_iter        : 200
+tssearch_neb_climbing        : TRUE       # climbing image -> true saddle point
+tssearch_neb_spring_constant : 5.0 eV/Ang**2
+
+xc_functional                : PBE
+cut_off_energy               : 550 eV
+
+spin_polarized               : true
+fix_occupancy                : false
+smearing_width               : 0.1 eV
+
+max_scf_cycles               : 250
+elec_energy_tol              : 1.0e-6 eV
+
+geom_max_iter                : 200
+geom_force_tol               : 0.05 eV/Ang
+
+mixing_scheme                : Pulay
+opt_strategy                 : default
+write_checkpoint             : ALL
+num_dump_cycles              : 0

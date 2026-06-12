@@ -1,0 +1,20 @@
+task            : GeometryOptimization
+xc_functional   : PBE
+cut_off_energy  : 550 eV        # CONVERGE this for your system (see references/convergence.md)
+
+spin_polarized  : true
+fix_occupancy   : false
+smearing_width  : 0.1 eV
+
+max_scf_cycles  : 200
+elec_energy_tol : 1.0e-8 eV
+
+geom_max_iter   : 150
+geom_force_tol  : 0.01 eV/Ang
+geom_energy_tol : 1.0e-6 eV
+geom_stress_tol : 0.02 GPa
+geom_disp_tol   : 5.0e-4 Ang
+
+mixing_scheme   : Pulay
+opt_strategy    : default
+write_checkpoint: none

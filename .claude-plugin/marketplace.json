@@ -1,0 +1,15 @@
+{
+  "name": "castep-dft",
+  "description": "Practical CASTEP DFT skills for Claude Code: geometry optimization, convergence testing, phonons, NEB, and electronic structure.",
+  "owner": {
+    "name": "Qingwen Yi",
+    "email": "yiqingwen0828@gmail.com"
+  },
+  "plugins": [
+    {
+      "name": "castep-dft",
+      "source": "./plugins/castep-dft",
+      "description": "A practical CASTEP DFT assistant: geometry optimization, convergence testing, phonons, NEB, and electronic structure, with a hard-won troubleshooting checklist."
+    }
+  ]
+}
