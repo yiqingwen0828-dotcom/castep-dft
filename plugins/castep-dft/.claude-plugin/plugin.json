@@ -1,7 +1,7 @@
 {
   "name": "castep-dft",
   "displayName": "CASTEP DFT Assistant",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "A practical CASTEP DFT assistant: geometry optimization, convergence testing, phonons, NEB, and electronic structure, with a hard-won troubleshooting checklist (including the fix_com NEB trap).",
   "author": {
     "name": "Qingwen Yi",

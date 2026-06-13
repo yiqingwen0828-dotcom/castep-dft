@@ -17,7 +17,15 @@ Things to try, roughly in order:
 - Adjust mixing: `mixing_scheme : Pulay` with a smaller charge/spin mixing amplitude, or try density mixing parameters.
 - Increase `smearing_width` slightly to ease metallic/degenerate occupation.
 - Raise `max_scf_cycles` (e.g. 250+) for genuinely hard cases.
-- **PBE+U.** For strongly-correlated 3d states, a Hubbard U (e.g. U ≈ 4 eV on Mn d) localizes the electrons and stabilizes the SCF. Add a `%BLOCK HUBBARD_U` block. This is often the real fix for Mn and other late/mid 3d metals, and is also a methodological choice you should justify.
+- **PBE+U.** For strongly-correlated 3d states, a Hubbard U (e.g. U ≈ 4 eV on Mn d) localizes the electrons and stabilizes the SCF. Add a `%BLOCK HUBBARD_U` block **to the `.cell` file** (first line optionally sets units, `eV` default or `Ha`):
+
+  ```
+  %BLOCK HUBBARD_U eV
+  Mn d: 4.0
+  %ENDBLOCK HUBBARD_U
+  ```
+
+  Each line is `<species> [number] <orbital>: <value>` — bare species applies to all ions of that element, or add an index (`Mn 1 d: 4.0`) to target one ion. This is often the real fix for Mn (half-filled d⁵) and other mid/late 3d metals, and is a methodological choice you should justify and cite. The same `HUBBARD_U` block applies for band structure and phonon runs.
 
 If only one element in a series fails to converge while the rest are fine, suspect that element's d-occupation specifically, not your global settings.
 
